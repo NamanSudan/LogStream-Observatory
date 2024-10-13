@@ -1,0 +1,39 @@
+# vector.yaml
+
+sources:
+  log_generator:
+    type: socket
+    address: 0.0.0.0:9001  # Adjust the port if needed.
+    mode: tcp
+
+transforms:
+  parse_json:
+    type: remap
+    inputs: [log_generator]
+    source: |
+      . = parse_json!(.message)
+      .timestamp = parse_timestamp!(.timestamp, format: "%Y-%m-%d %H:%M:%S")
+      .log_level = .level
+      del(.level)
+
+sinks:
+  console:
+    type: console
+    inputs: [parse_json]
+    encoding:
+      codec: json
+  clickhouse:
+    type: clickhouse
+    inputs: [parse_json]
+    database: logs
+    table: application_logs
+    endpoint: http://clickhouse-server:8123
+    compression: gzip
+    batch:
+      max_events: 1000
+      timeout_secs: 1
+    encoding:
+      timestamp_format: "unix"
+    request:
+      headers:
+        X-ClickHouse-Format: JSONEachRow

@@ -1,0 +1,44 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Log Analytics Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Log Analytics Dashboard</h1>
+    <form method="get" action="/">
+        <label for="log_level">Log Level:</label>
+        <input type="text" id="log_level" name="log_level" value="{{ log_level }}">
+        <label for="source">Source:</label>
+        <input type="text" id="source" name="source" value="{{ source }}">
+        <label for="message">Message:</label>
+        <input type="text" id="message" name="message" value="{{ message }}">
+        <button type="submit">Filter</button>
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>Timestamp</th>
+                <th>Log Level</th>
+                <th>Source</th>
+                <th>Message</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for log in logs %}
+            <tr>
+                <td>{{ log['timestamp'] }}</td>
+                <td>{{ log['log_level'] }}</td>
+                <td>{{ log['source'] }}</td>
+                <td>{{ log['message'] }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="4">No logs found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

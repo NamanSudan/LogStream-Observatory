@@ -1,6 +1,6 @@
 # Real-Time Log Analytics System with ClickHouse, Vector.dev, and Python
 
-![Log Analytics Dashboard](https://github.com/namansudan/LogStream-Observatory/log_gen_ui.png)
+![Log Analytics Dashboard](https://github.com/NamanSudan/LogStream-Observatory/blob/main/log_gen_ui.png)
 
 ## Table of Contents
 
